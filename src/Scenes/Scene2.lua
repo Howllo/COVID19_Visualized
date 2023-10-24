@@ -1,22 +1,46 @@
-local composer = require( "composer" )
+--***********************************************************************************************
+-- Tony Hardiman
+-- Assignment 3
+-- Scene2.lua
+--***********************************************************************************************
+
+-- Requirements
+local composer = require("composer")
 local scene = composer.newScene()
+local MenuSceneTwo = require("src.UserInterface.MenuSceneTwo")
  
----------------------------------------------------------------------------------
--- All code outside of the listener functions will only be executed ONCE
--- unless "composer.removeScene()" is called.
----------------------------------------------------------------------------------
- 
--- local forward references should go here
- 
----------------------------------------------------------------------------------
- 
+-- Variables
+local dataLocation = "data\\new_covid_al.csv"
+local path = system.pathForFile( dataLocation, system.ResourceDirectory )
+local covidDots = {}
+local covidDots = {}
+local bg = nil
+local menu = nil
+local popupGroup = nil
+
 -- "scene:create()"
 function scene:create( event )
  
    local sceneGroup = self.view
  
-   -- Initialize the scene here.
-   -- Example: add display objects to "sceneGroup", add touch listeners, etc.
+   -- Set popup group variable
+   popupGroup = composer.getVariable("PopupGroup")
+
+   -- Set Covid Dots
+   covidDots = composer.getVariable("covidDots")
+
+   -- Alabama Background
+   bg = display.newImage (sceneGroup, "data/al_map.png", display.contentCenterX, display.contentCenterY);
+   bg.xScale = display.contentWidth / bg.width; 
+   bg.yScale = display.contentHeight / bg.height;
+   
+   -- Menu
+   menu = MenuSceneTwo.new(sceneGroup, covidDots)
+
+   -- Set Dots Visible
+   for _,dot in ipairs(covidDots) do
+      dot.isVisible = true
+   end
 end
  
 -- "scene:show()"
@@ -31,6 +55,10 @@ function scene:show( event )
       -- Called when the scene is now on screen.
       -- Insert code here to make the scene come alive.
       -- Example: start timers, begin animation, play audio, etc.
+
+      for _,dot in ipairs(covidDots) do
+         dot.isVisible = true
+      end
    end
 end
  
@@ -41,11 +69,12 @@ function scene:hide( event )
    local phase = event.phase
  
    if ( phase == "will" ) then
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
+      for _,dot in ipairs(covidDots) do
+         dot.isVisible = false
+      end
+
+      popupGroup.isVisible = false
    elseif ( phase == "did" ) then
-      -- Called immediately after scene goes off screen.
    end
 end
  

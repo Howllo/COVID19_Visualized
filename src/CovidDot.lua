@@ -10,23 +10,36 @@ CovidDot = {}
 --[[
 Object / Constructor
 
-Create new dots. Color = Color of Dot, x = x location, y = y location, case = number of cases
+Group = Dot Group, zip = zipcode, x = x location, y = y location, 
 
-Death = number of deaths, zip = zipcode, location = city
+location = city, case = number of cases, death = number of deaths, color = Color of Dot
 ]]--
 function CovidDot.new(group, zip, x, y, location, case, death, color)
-    local self = display.newCircle(group, 0, 0, 5 );
-
     -- Variables
-    self:setFillColor( color[1], color[2], color[3] )
-    self.alpha = 0.5
-    self.x = x
-    self.y = y
     local zipcode = zip
     local location = location
     local case = case
     local death = death
-    
+    local caseOrdeath = b_caseOrdeath
+
+
+    -- Covid Dot Information
+    local self = display.newCircle(group, 0, 0, 8 )
+    self:setFillColor(color[1], color[2], color[3])
+    self.alpha = 0.6
+    self.x = x
+    self.y = y
+
+    -- 882 Cases - Highest 114,709
+    local function calculateDotSizeCase()
+        
+    end 
+
+    -- Lower 27 - Highest 1924 Death
+    local function calculateDotSizeDeath()
+
+    end
+
     function self:SetColor(r, g, b)
         self:setFillColor( r, g, b )
     end
@@ -58,6 +71,17 @@ function CovidDot.new(group, zip, x, y, location, case, death, color)
     function self:GetDeath()
         return death
     end
+    
+    -- b_caseOrdeath = true if case, false if death
+    function self:SetSizeOfDot(b_caseOrdeath)
+        if (b_caseOrdeath == true) then
+            calculateDotSizeCase()
+        else 
+            calculateDotSizeDeath()
+        end
+    end
+
+    return self
 end
 
 return CovidDot

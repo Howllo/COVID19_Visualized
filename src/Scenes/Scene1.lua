@@ -20,16 +20,6 @@ local sceneSwitch = nil
 local sceenSwitchText = nil
 local createMenuButton = nil
 
--- Sets covid dots table array.
-function scene:SetCovidDots(dots)
-   return covidDots
-end
-
--- Returns covid dots table array.
-function scene:GetCovidDots()
-   return covidDots
-end
-
 -- "scene:create()"
 function scene:create( event )
    local sceneGroup = self.view
@@ -37,7 +27,7 @@ function scene:create( event )
    -- Load Data
    data = LoadData.new()
    covidDotsGroup = data.getGroup()
-   covidDots = data.CreateDots()
+   covidDots = data.CreateDots(composer.getVariable("PopupGroup"), composer.getVariable("Popup"))
 
    -- Set composer variables
    composer.setVariable("covidDots", covidDots)

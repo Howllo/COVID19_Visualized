@@ -10,7 +10,6 @@ Load = {}
 -- Requirements
 local CovidDot = require("src.CovidDot")
 local csv = require("lib.csv")
-local CovidInformationPopup = require("src.UserInterface.CovidInformationPopup")
 
 function Load.new()
     local self = {}
@@ -19,18 +18,9 @@ function Load.new()
     local path = system.pathForFile( dataLocation, system.ResourceDirectory )
     local covidDots = {}
     local covidGroup = display.newGroup()
-    local popup = CovidInformationPopup.new()
-    local popupGroup = popup.getGroup()
-    popupGroup.isVisible = false
 
-    local function DotsHandler(event)
-        if popup == nil then print("Error: Popup is nil") return end
-        popup.SetInformation(event.target:GetLocation(), event.target:GetZipcode(), event.target:GetCurrentCase(), 
-                                event.target:GetCurrentDeath())
-        popupGroup.isVisible = true
-    end
-
-    function self.CreateDots()
+    -- Create all dots from CSV file
+    function self.CreateDots(popupGroup, popup)
         local fields = csv.open(path)
         local b_Test = false
         if fields ~= nil then 
@@ -46,10 +36,9 @@ function Load.new()
                 -- Create the Covid Dot
                 if b_Test == false then
                     local dot = CovidDot.new(covidGroup, field[1], field[2], field[3], field[4], field[5], field[6],
-                                                {1, 1, 1}, i)
-                    dot:addEventListener("tap", DotsHandler)
+                                                {1, 1, 1}, i, popupGroup, popup)
                     table.insert(covidDots, dot)
-                    dot.isVisible = false
+                    dot:SetDotVisible(false)
                     dot.ChildDot = false
                 end
                 i = i + 1

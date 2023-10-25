@@ -62,7 +62,7 @@ function scene:show( event )
       for _,dot in ipairs(covidDots) do
          int = int + 1
          if dot.ChildDot == false then
-            dot.isVisible = true
+            dot:SetDotVisible(true)
          end
       end
 
@@ -79,7 +79,7 @@ function scene:hide( event )
  
    if ( phase == "will" ) then
       for _,dot in ipairs(covidDots) do
-         dot.isVisible = false
+         dot:SetDotVisible(false)
       end
 
       -- Hide Popup menu when switching to scene oen.

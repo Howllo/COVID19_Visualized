@@ -46,7 +46,7 @@ function AbsorbDot.Absorb(covidDots)
     -- Compare all dots to each other and absorb if needed
     for i = 1, #covidDots do
         for j = 1, #covidDots do
-            local dist = distance(covidDots[i].x, covidDots[i].y, covidDots[j].x, covidDots[j].y)
+            local dist = distance(covidDots[i]:GetX(), covidDots[i]:GetY(), covidDots[j]:GetX(), covidDots[j]:GetY())
             if covidDots[i]:GetCaseOrDeath() == true and i ~= j then
                 if dist <= maxDistance then
                     if covidDots[i]:GetCurrentCase() >= covidDots[j]:GetCurrentCase() then

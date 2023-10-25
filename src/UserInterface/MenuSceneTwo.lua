@@ -38,7 +38,7 @@ function Class.new(s_Group, covidDots)
         end
     
         for _,dot in ipairs(covidDots) do
-            dot.alpha = value / 100
+            dot:GetCircleDot().alpha = value / 100
         end
     end
 

@@ -14,40 +14,53 @@ Group = Dot Group, zip = zipcode, x = x location, y = y location,
 
 location = city, case = number of cases, death = number of deaths, color = Color of Dot
 ]]--
-function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, ID)
+function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, ID, in_popupGroup, in_popup)
+    local self = {}
+
     -- Variables
     local UniqueID = ID
     local zipcode = zip
     local location = in_Location
     local case = tonumber(in_Case)
     local death = tonumber(in_Death)
-    local currentCases = 0
-    local currentDeath = 0
+    local currentCases = case
+    local currentDeath = death
     local caseOrDeath = true
+    local popupGroup = in_popupGroup
+    local popup = in_popup
     local absorbDots = {}
     ChildDot = false
 
-    -- Covid Dot Information
-    local self = display.newCircle(group, 0, 0, 8 )
-    self:setFillColor(color[1], color[2], color[3])
-    self.alpha = 0.6
-    self.x = x
-    self.y = y
+    -- Restore State Variables
+    local originalX = x
+    local originalY = y
+    local orginalGroup = group
+    local originalColor = color
+    local originalAlpha = 0.6
 
-    function self:SetColor(r, g, b)
-        self:setFillColor( r, g, b )
+    -- Covid Dot Information
+    local selfDot = display.newCircle(group, x, y, 8 )
+    selfDot:setFillColor(color[1], color[2], color[3])
+    selfDot.alpha = 0.6
+
+    local function DotsHandler(event)
+        print("Dot Tapped")
+        if popup == nil then print("Error: Popup is nil") return end
+        popup.SetInformation(event.target:GetLocation(), event.target:GetZipcode(), event.target:GetCurrentCase(), 
+                                event.target:GetCurrentDeath())
+        popupGroup.isVisible = true
     end
 
-    function self:GetCovidDot()
-        return self
+    function self:SetColor(r, g, b)
+        self.selfDot:setFillColor( r, g, b )
     end
 
     function self:GetX()
-        return self.x
+        return selfDot.x
     end
 
     function self:GetY()
-        return self.y
+        return selfDot.y
     end
 
     function self:GetZipcode()
@@ -80,6 +93,14 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
 
     function self:GetUniqueID()
         return UniqueID
+    end
+
+    function self:GetCircleDot()
+        return selfDot
+    end
+
+    function self:SetDotVisible(b_Visible)
+        selfDot.isVisible = b_Visible
     end
 
     -- Recalculate the current cases and deaths
@@ -133,7 +154,7 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
         end
 
         dot.ChildDot = true
-        dot.isVisible = false
+        self:SetDotVisible(false)
         local key = dot.GetLocation()
         if absorbDots[key] == nil then
             absorbDots[key] = dot
@@ -160,14 +181,31 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
 
     function self:SetRadius(n_Radius)
         if n_Radius == nil then print("Error: Radius is nil. CovidDot Class.") return end
-        self.width = n_Radius
-        self.height = n_Radius
+        selfDot = display.newCircle(orginalGroup, originalX, originalY, n_Radius)
+        selfDot.alpha = originalAlpha
+        selfDot:setFillColor(originalColor[1], originalColor[2], originalColor[3])
     end
 
     -- Empty the absorbDots table
     function self:ResetAborbsDot()
         absorbDots = {}
     end
+
+    function self:Reset()
+        self.isVisible = false
+        self.ChildDot = false
+        currentCases = 0
+        currentDeath = 0
+        caseOrDeath = true
+        self:SetRadius(8)
+        self:ResetAborbsDot()
+    end
+
+    ---------------------------------------------------------------------------------
+ 
+    -- Listener setup
+    selfDot:addEventListener("touch", DotsHandler)
+    ---------------------------------------------------------------------------------
 
     return self
 end

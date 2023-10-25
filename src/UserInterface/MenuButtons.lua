@@ -36,47 +36,45 @@ function MenuButtons.new()
 
     function CaseButtonHandler()
         for _, dot in ipairs(covidDots) do
+            dot:Reset()
             dot:SetCaseOrDeath(true)
-            dot.ChildDot = true
-            dot:ResetAborbsDot()
         end
     end
 
     function DeathButtonHandler()
         for _, dot in ipairs(covidDots) do
+            dot:Reset()
             dot:SetCaseOrDeath(false)
-            dot.ChildDot = false
-            dot:ResetAborbsDot()
         end
     end
 
     function WhiteButtonHandler()
         for _,dot in ipairs(covidDots) do
-            dot:setFillColor(1, 1, 1)
+            dot:SetColor(1, 1, 1)
         end
     end
 
     function RedButtonHandler()
         for _,dot in ipairs(covidDots) do
-            dot:setFillColor(1, 0, 0)
+            dot:SetColor(1, 0, 0)
         end
     end
 
     function GreenButtonHandler()
         for _,dot in ipairs(covidDots) do
-            dot:setFillColor(0, 1, 0)
+            dot:SetColor(0, 1, 0)
         end
     end
 
     function BlueButtonHandler()
         for _,dot in ipairs(covidDots) do
-            dot:setFillColor(0, 0, 1)
+            dot:SetColor(0, 0, 1)
         end
     end
 
     function YellowButtonHandler()
         for _,dot in ipairs(covidDots) do
-            dot:setFillColor(1, 1, 0)
+            dot:SetColor(1, 1, 0)
         end
     end
 

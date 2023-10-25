@@ -44,6 +44,7 @@ function AbsorbDot.Absorb(covidDots)
     end
 
     -- Compare all dots to each other and absorb if needed
+    --[[
     for i = 1, #covidDots do
         for j = 1, #covidDots do
             local dist = distance(covidDots[i]:GetX(), covidDots[i]:GetY(), covidDots[j]:GetX(), covidDots[j]:GetY())
@@ -66,7 +67,7 @@ function AbsorbDot.Absorb(covidDots)
             end
         end
     end
-
+    ]]--
     -- Resize all dots to the size of the current cases or deaths
     ResizeDot()
 end

@@ -58,9 +58,7 @@ function scene:show( event )
       -- Remove
       --bg:removeEventListener("touch", RunTimeHandle)
    elseif ( phase == "did" ) then
-      local int = 0;
       for _,dot in ipairs(covidDots) do
-         int = int + 1
          if dot.ChildDot == false then
             dot:SetDotVisible(true)
          end

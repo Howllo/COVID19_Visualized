@@ -40,14 +40,14 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
 
     -- Covid Dot Information
     selfDot = display.newCircle(group, x, y, 8 )
+    selfDot.myDot = self
     selfDot:setFillColor(color[1], color[2], color[3])
     selfDot.alpha = 0.6
 
     local function DotsHandler(event)
-        print("Dot Tapped")
         if popup == nil then print("Error: Popup is nil") return end
-        popup.SetInformation(event.target:GetLocation(), event.target:GetZipcode(), event.target:GetCurrentCase(), 
-                                event.target:GetCurrentDeath())
+        local dot = event.target.myDot
+        popup.SetInformation(dot:GetLocation(), dot:GetZipcode(), dot:GetCurrentCase(), dot:GetCurrentDeath())
         popupGroup.isVisible = true
     end
 
@@ -150,7 +150,7 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
         end
 
         dot.ChildDot = true
-        self:SetDotVisible(false)
+        --self:SetDotVisible(false)
         local key = dot.GetLocation()
         if absorbDots[key] == nil then
             absorbDots[key] = dot
@@ -177,9 +177,16 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
 
     function self:SetRadius(n_Radius)
         if n_Radius == nil then print("Error: Radius is nil. CovidDot Class.") return end
+
+        -- Remove Event Listener
+        selfDot:removeEventListener("touch", DotsHandler)
+        display.remove(selfDot)
+
+        -- Create New Dot
         selfDot = display.newCircle(orginalGroup, originalX, originalY, n_Radius)
         selfDot.alpha = originalAlpha
         selfDot:setFillColor(originalColor[1], originalColor[2], originalColor[3])
+        selfDot:addEventListener("touch", DotsHandler)
     end
 
     -- Empty the absorbDots table
@@ -190,8 +197,8 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     function self:Reset()
         self.isVisible = false
         self.ChildDot = false
-        currentCases = 0
-        currentDeath = 0
+        currentCases = self:GetCase()
+        currentDeath = self:GetDeath()
         caseOrDeath = true
         self:SetRadius(8)
         self:ResetAborbsDot()

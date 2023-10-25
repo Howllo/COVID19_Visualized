@@ -53,7 +53,7 @@ function scene:show( event )
  
    if ( phase == "will" ) then
       -- Absorb Dots Handler
-      AbsorbDot.Absorb(covidDots)
+      AbsorbDot.Absorb(covidDots, composer.getVariable("absorbApproved"))
 
       -- Remove
       --bg:removeEventListener("touch", RunTimeHandle)

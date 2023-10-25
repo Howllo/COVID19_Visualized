@@ -45,7 +45,7 @@ function scene:create( event )
 
    -- Create Menu
    createMenuButton = menuButton.new()
-   createMenuButton.setCovidDots(covidDots)
+   createMenuButton:setCovidDots(covidDots)
    
    -- Scene Switch
    sceneSwitch = display.newRect( sceneGroup, 700, 50, 75, 75)
@@ -68,7 +68,7 @@ function scene:show( event )
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
       if createMenuButton ~= nil then
-         createMenuButton.SetVisible(true)
+         createMenuButton:SetVisible(true)
       end
    end
 end
@@ -82,7 +82,12 @@ function scene:hide( event )
    if ( phase == "will" ) then
 
       if createMenuButton ~= nil then
-         createMenuButton.SetVisible(false)
+         createMenuButton:SetVisible(false)
+      end
+
+      -- Waste of Time
+      if createMenuButton ~= nil then
+         composer.setVariable("AbsorbApproved", createMenuButton:GetAbsorbApproved())
       end
 
    elseif ( phase == "did" ) then

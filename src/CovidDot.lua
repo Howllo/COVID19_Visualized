@@ -21,8 +21,8 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     local location = in_Location
     local case = tonumber(in_Case)
     local death = tonumber(in_Death)
-    local currentCases = 0
-    local currentDeath = 0
+    local currentCases = in_Case
+    local currentDeath = in_Death
     local caseOrDeath = true
     local absorbDots = {}
     ChildDot = false
@@ -166,7 +166,7 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
 
     -- Empty the absorbDots table
     function self:ResetAborbsDot()
-        absorbDots = {}
+        absorbDots = {} ---- test
     end
 
     return self

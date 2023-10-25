@@ -25,11 +25,8 @@ function Load.new()
 
     local function DotsHandler(event)
         if popup == nil then print("Error: Popup is nil") return end
-
-        print("Location: " .. event.target.GetLocation())
-
-        popup.SetInformation(event.target.GetLocation(), event.target.GetZipcode(), event.target.GetCase(), 
-                                event.target.GetDeath())
+        popup.SetInformation(event.target:GetLocation(), event.target:GetZipcode(), event.target:GetCurrentCase(), 
+                                event.target:GetCurrentDeath())
         popupGroup.isVisible = true
     end
 
@@ -37,6 +34,7 @@ function Load.new()
         local fields = csv.open(path)
         local b_Test = false
         if fields ~= nil then 
+            local i = 0
             for field in fields:lines() do 
                 -- Skip the first line
                 if field[1] == "zip" and b_Test == false then
@@ -48,11 +46,13 @@ function Load.new()
                 -- Create the Covid Dot
                 if b_Test == false then
                     local dot = CovidDot.new(covidGroup, field[1], field[2], field[3], field[4], field[5], field[6],
-                                                {1, 1, 1}, true)
+                                                {1, 1, 1}, i)
                     dot:addEventListener("tap", DotsHandler)
                     table.insert(covidDots, dot)
                     dot.isVisible = false
+                    dot.ChildDot = false
                 end
+                i = i + 1
             end
         else 
             print("Error: File not found at location " .. path)

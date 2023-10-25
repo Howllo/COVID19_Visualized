@@ -46,9 +46,6 @@ function scene:create( event )
    -- Create Menu
    createMenuButton = menuButton.new()
    createMenuButton.setCovidDots(covidDots)
-
-   -- Initialize the scene here.
-   -- Example: add display objects to "sceneGroup", add touch listeners, etc.
    
    -- Scene Switch
    sceneSwitch = display.newRect( sceneGroup, 700, 50, 75, 75)
@@ -69,7 +66,6 @@ function scene:show( event )
    local phase = event.phase
  
    if ( phase == "will" ) then
-      -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
       if createMenuButton ~= nil then
          createMenuButton.SetVisible(true)
@@ -97,10 +93,6 @@ end
 function scene:destroy( event )
  
    local sceneGroup = self.view
- 
-   -- Called prior to the removal of scene's view ("sceneGroup").
-   -- Insert code here to clean up the scene.
-   -- Example: remove display objects, save state, etc.
 end
  
 ---------------------------------------------------------------------------------

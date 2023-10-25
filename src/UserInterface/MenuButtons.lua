@@ -36,11 +36,18 @@ function MenuButtons.new()
 
     function CaseButtonHandler()
         for _, dot in ipairs(covidDots) do
-            --dot.
+            dot:SetCaseOrDeath(true)
+            dot.ChildDot = true
+            dot:ResetAborbsDot()
         end
     end
 
     function DeathButtonHandler()
+        for _, dot in ipairs(covidDots) do
+            dot:SetCaseOrDeath(false)
+            dot.ChildDot = false
+            dot:ResetAborbsDot()
+        end
     end
 
     function WhiteButtonHandler()

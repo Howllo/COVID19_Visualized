@@ -31,7 +31,7 @@ function Class.new(s_Group, covidDots)
     local function sliderHandler(event)
         local value = event.value
         
-        if covidDots[1].caseOrdeath == true then
+        if covidDots[1]:GetCaseOrDeath() == true then
             sliderText.text = "Selected: " .. value .. " cases."
         else 
             sliderText.text = "Selected: " .. value .. " deaths."
@@ -71,9 +71,17 @@ function Class.new(s_Group, covidDots)
 
     -- Slider Text
     if slider ~= nil then
-        sliderText = display.newText(sceneGroup, "Slider at " .. slider.value / 100, 500, 1130, native.systemFont, 25)
+       if covidDots[1]:GetCaseOrDeath() == true then
+            sliderText = display.newText(sceneGroup, "Selected: " .. slider.value .. " cases.", 500, 1130, native.systemFont, 25)
+        else 
+            sliderText = display.newText(sceneGroup, "Selected: " .. slider.value .. " deaths.", 500, 1130, native.systemFont, 25)
+        end
     else 
-        sliderText = display.newText(sceneGroup, "Slider at 0.5%", 500, 1130, native.systemFont, 25)
+        if covidDots[1]:GetCaseOrDeath() == true then
+            sliderText = display.newText(sceneGroup, "Selected: " .. 50 .. " cases.", 500, 1130, native.systemFont, 25)
+        else 
+            sliderText = display.newText(sceneGroup, "Selected: " .. 50 .. " deaths.", 500, 1130, native.systemFont, 25)
+        end
     end 
 
     return Self

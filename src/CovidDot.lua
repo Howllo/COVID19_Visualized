@@ -39,7 +39,7 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     local originalAlpha = 0.6
 
     -- Covid Dot Information
-    local selfDot = display.newCircle(group, x, y, 8 )
+    selfDot = display.newCircle(group, x, y, 8 )
     selfDot:setFillColor(color[1], color[2], color[3])
     selfDot.alpha = 0.6
 
@@ -52,7 +52,7 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     end
 
     function self:SetColor(r, g, b)
-        self.selfDot:setFillColor( r, g, b )
+        selfDot:setFillColor( r, g, b )
     end
 
     function self:GetX()
@@ -85,10 +85,6 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
 
     function self:GetCurrentDeath()
         return currentDeath
-    end
-    
-    function self:GetDotSize()
-        return self.radius
     end
 
     function self:GetUniqueID()

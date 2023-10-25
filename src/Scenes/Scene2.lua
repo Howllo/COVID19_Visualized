@@ -15,6 +15,7 @@ local covidDots = {}
 local bg = nil
 local menu = nil
 local popupGroup = nil
+local absorbApproved = false
 
 local function RunTimeHandle(event)
    if event.phase == "ended" then
@@ -32,6 +33,9 @@ function scene:create( event )
 
    -- Set Covid Dots
    covidDots = composer.getVariable("covidDots")
+
+   -- Get Absorb Approve
+   absorbApproved = composer.getVariable("AbsorbApproved");
 
    -- Alabama Background
    bg = display.newImage (sceneGroup, "data/al_map.png", display.contentCenterX, display.contentCenterY);

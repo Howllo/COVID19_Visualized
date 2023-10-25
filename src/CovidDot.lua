@@ -159,9 +159,11 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     end
 
     function self:SetRadius(n_Radius)
-        if n_Radius == nil then print("Error: Radius is nil. CovidDot Class.") return end
-        self.width = n_Radius
-        self.height = n_Radius
+        if n_Radius == nil then print("Error: Radius is nil. CovidDot Class.") return end   
+        local nR = (n_Radius - 8) * (5.0 - 1.0) / (25 - 8) + 1.0
+        print("Scaling is: " .. nR)
+        self.xScale = nR
+        self.yScale = nR
     end
 
     -- Empty the absorbDots table

@@ -10,7 +10,7 @@ AbsorbDot = {}
 -- Requirements
 local covidDots = require("src.CovidDot")
 
-function AbsorbDot.Absorb(covidDots, aproved)
+function AbsorbDot.Absorb(covidDots, approved)
     -- If distant to dot is greater than 50 pixel then do not absorb
     -- If distant is less than 50 pixel then absorb
     -- If the size of a the dot is larger than asorb into the larger dot
@@ -23,7 +23,7 @@ function AbsorbDot.Absorb(covidDots, aproved)
     local outCaseMin,outCaseMax = 8, 25
     local inDeathMin, inDeathMax = 27, 1924
     local outDeathMin, outDeathMax = 8, 25
-    local maxDistance = 50
+    local maxDistance = 25
 
     local function distance(x1, y1, x2, y2)
         return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2)
@@ -31,7 +31,7 @@ function AbsorbDot.Absorb(covidDots, aproved)
 
     -- Resize the dot to the current case or death
     local function ResizeDot()
-        if covidDots == nil then print("Error: Resize Dot - covidDots is nil")return end
+        if covidDots == nil then print("Error: Resize Dot - covidDots is nil") return end
         for _,dot in ipairs(covidDots) do
             if dot.GetCaseOrDeath() == true then
                 local nR = (dot:GetCase() - inCaseMin) * (outCaseMax - outCaseMin) / (inCaseMax - inCaseMin) + outCaseMin
@@ -48,7 +48,7 @@ function AbsorbDot.Absorb(covidDots, aproved)
     --aforementioned radius range for your circles. For instance, if a Case value for a zip code area is 50 within a 
     --range of 882 to 114709, it should be mapped to a range of 8 to 25 using the formula map(50, 822, 114709, 5, 20).
     --It is far too baked into the program now.
-    if aproved == true then
+    if approved == true then
         for i = 1, #covidDots do
             for j = 1, #covidDots do
                 local dist = distance(covidDots[i].x, covidDots[i].y, covidDots[j].x, covidDots[j].y)

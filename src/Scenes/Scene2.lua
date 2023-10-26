@@ -103,7 +103,6 @@ end
  
 -- "scene:destroy()"
 function scene:destroy( event )
- 
    local sceneGroup = self.view
 end
 
@@ -114,6 +113,7 @@ end
 local function RunTimeHandle(event)
    if event.phase == "ended" then
       doubleTouch = doubleTouch + 1
+      -- Slower than human reaction time, but fast enough to not be annoying.
       doubleTouchTimer = timer.performWithDelay(300, resetDoubleTouch)
       if doubleTouch == 2 then
          timer.cancel(doubleTouchTimer)

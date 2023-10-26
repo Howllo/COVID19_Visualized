@@ -10,7 +10,7 @@ AbsorbDot = {}
 -- Requirements
 local covidDots = require("src.CovidDot")
 
-function AbsorbDot.Absorb(covidDots, approved, in_maxDistance)
+function AbsorbDot.Absorb(covidDots, approved, maxDistance)
     -- If distant to dot is greater than 50 pixel then do not absorb
     -- If distant is less than 50 pixel then absorb
     -- If the size of a the dot is larger than asorb into the larger dot
@@ -28,6 +28,12 @@ function AbsorbDot.Absorb(covidDots, approved, in_maxDistance)
         return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2)
     end
 
+    local function ResetDots()
+        for _, dot in ipairs(covidDots) do
+            dot:Reset(true)
+        end
+    end
+
     -- Resize the dot to the current case or death
     local function ResizeDot()
         if covidDots == nil then print("Error: Resize Dot - covidDots is nil") return end
@@ -42,15 +48,13 @@ function AbsorbDot.Absorb(covidDots, approved, in_maxDistance)
         end
     end
 
-    -- Waste of time due to misreading of the assignment
+    -- Waste of time due to misreading of the assignment. 
+    -- But still going to use it.
     local function AbsorbDot()
         if approved == false then return end
 
-                -------
-        --Change Absorb Size--
-        ----------------------
-        local maxDistance = in_maxDistance
-        ----------------------
+        -- Reset the Dot
+        ResetDots()
 
         for i = 1, #covidDots do
             for j = 1, #covidDots do

@@ -176,12 +176,20 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
         absorbDots = {} ---- test
     end
 
-    function self:Reset()
+    -- Reset the dot
+    -- setVisible = true if you want to set the dot to visible
+    function self:Reset(setVisible)
         absorbDots = {}
         currentCases = self:GetCase()
         currentDeath = self:GetDeath()
         self.ChildDot = false
-        self.isVisible = false
+
+        if setVisible == true then
+            self.isVisible = true
+        else 
+            self.isVisible = false
+        end
+        
         self.Searched = false
         self.Slidered = false
     end

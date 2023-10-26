@@ -16,8 +16,6 @@ local LoadData = require("src.LoadData")
 local covidDots = {}
 local data = nil
 local covidDotsGroup = nil
-local sceneSwitch = nil
-local sceenSwitchText = nil
 local createMenuButton = nil
 
 -- Sets covid dots table array.

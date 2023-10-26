@@ -18,6 +18,7 @@ local popupGroup = nil
 local absorbApproved = false
 local doubleTouch = 0
 local doubleTouchTimer = nil
+local Absorb = nil
 
 -- "scene:create()"
 function scene:create( event )
@@ -29,6 +30,9 @@ function scene:create( event )
 
    -- Set Covid Dots
    covidDots = composer.getVariable("covidDots")
+   
+   -- Absorb
+   Absorb = AbsorbDot.new(covidDots)
 
    -- Alabama Background
    bg = display.newImage (sceneGroup, "data/al_map.png", display.contentCenterX, display.contentCenterY);
@@ -45,15 +49,17 @@ function scene:show( event )
    if ( phase == "will" ) then
 
       -- Absorb Dots Handler
-      AbsorbDot.Absorb(covidDots, absorbApproved, 25)
+      if Absorb ~= nil then
+         Absorb:Absorb(absorbApproved, 25)
+         Absorb:ResizeDot()
+      end
 
       -- Get Absorb Approve
       absorbApproved = composer.getVariable("AbsorbApproved");
-   elseif ( phase == "did" ) then
+   elseif ( phase == "did" ) then  
+      --Reset Dots for Scene
       for _,dot in ipairs(covidDots) do
-         if dot.ChildDot == false then
-            dot.isVisible = true
-         end
+         dot.isVisible = true
       end
 
       -- Menu
@@ -79,8 +85,14 @@ function scene:hide( event )
          menu = nil
       end
 
+      -- Clean Dots for next Scene
       for _,dot in ipairs(covidDots) do
          dot:Reset()
+      end
+
+      -- Resize Dots for next Scene
+      if Absorb ~= nil then
+         Absorb:ResizeDot()
       end
    elseif ( phase == "did" ) then
    end

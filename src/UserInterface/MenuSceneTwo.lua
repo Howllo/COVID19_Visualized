@@ -12,8 +12,8 @@ local widget = require("widget")
 local composer = require("composer")
 local AbsorbDot = require("src.AbsorbDotAlgorithm")
 
-function Class.new(s_Group, covidDots, in_absorbApproved)
-    if s_Group == nil or covidDots == nil then
+function Class.new(s_Group, in_covidDots, in_absorbApproved)
+    if s_Group == nil or in_covidDots == nil then
         print("Error: s_Group or covidDots is nil")
         return nil
     end
@@ -27,9 +27,10 @@ function Class.new(s_Group, covidDots, in_absorbApproved)
     local sceneSwitch = nil
     local UIText = nil
     local exerimental = nil
-    local covidDots = covidDots
+    local covidDots = in_covidDots
     local sceneGroup = s_Group
     local absorbApproved = in_absorbApproved
+    local Absorb = AbsorbDot.new(covidDots)
 
     -- This filters the dots based on the slider value and if it case or not.
     local function filterDot(dot, caseOrDeath, value)
@@ -46,7 +47,9 @@ function Class.new(s_Group, covidDots, in_absorbApproved)
     end
 
     local function absorbDot(value)
-        AbsorbDot.Absorb(covidDots, absorbApproved, value)
+        if Absorb == nil then return end
+
+        Absorb:Absorb(absorbApproved, value)
     end
 
     local function Search(dot, search, data )
@@ -127,7 +130,7 @@ function Class.new(s_Group, covidDots, in_absorbApproved)
         if exerimental ~= nil then
             exerimental.isVisible = false
         end
-
+        
         composer.gotoScene("src.Scenes.Scene1", {effect = "fade", time = 500})
     end
 

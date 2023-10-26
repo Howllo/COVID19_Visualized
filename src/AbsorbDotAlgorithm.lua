@@ -10,32 +10,24 @@ AbsorbDot = {}
 -- Requirements
 local covidDots = require("src.CovidDot")
 
-function AbsorbDot.Absorb(covidDots, approved, maxDistance)
-    -- If distant to dot is greater than 50 pixel then do not absorb
-    -- If distant is less than 50 pixel then absorb
-    -- If the size of a the dot is larger than asorb into the larger dot
-    -- Use data from the larger dot to populate the popup menu.
+function AbsorbDot.new(covidDot)
+    if covidDot == nil then print("Error: Covid dot is nil. Algorithm Class.") return end
 
-    if covidDots == nil then print("Error: Covid dot is nil. Algorithm Class.") return end
+    local Self = {}
 
     -- Variables
     local inCaseMin, inCaseMax = 882, 114709
     local outCaseMin,outCaseMax = 8, 25
     local inDeathMin, inDeathMax = 27, 1924
     local outDeathMin, outDeathMax = 8, 25
+    local covidDots = covidDot
 
     local function distance(x1, y1, x2, y2)
         return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2)
     end
 
-    local function ResetDots()
-        for _, dot in ipairs(covidDots) do
-            dot:Reset(true)
-        end
-    end
-
     -- Resize the dot to the current case or death
-    local function ResizeDot()
+    function Self:ResizeDot()
         if covidDots == nil then print("Error: Resize Dot - covidDots is nil") return end
         for _,dot in ipairs(covidDots) do
             if dot.GetCaseOrDeath() == true then
@@ -50,11 +42,13 @@ function AbsorbDot.Absorb(covidDots, approved, maxDistance)
 
     -- Waste of time due to misreading of the assignment. 
     -- But still going to use it.
-    local function AbsorbDot()
+    function Self:Absorb(approved, maxDistance)
         if approved == false then return end
 
-        -- Reset the Dot
-        ResetDots()
+        -- Reset Dots
+        for _, dot in ipairs(covidDots) do
+            dot:ResetAborbsDot(true)
+        end
 
         for i = 1, #covidDots do
             for j = 1, #covidDots do
@@ -80,11 +74,7 @@ function AbsorbDot.Absorb(covidDots, approved, maxDistance)
         end
     end
 
-    -- Absorb Dot Check
-    AbsorbDot()
-
-    -- Resize all dots to the size of the current cases or deaths
-    ResizeDot()
+    return Self
 end
 
 return AbsorbDot

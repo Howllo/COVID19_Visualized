@@ -46,17 +46,6 @@ function scene:create( event )
    -- Create Menu
    createMenuButton = menuButton.new()
    createMenuButton:setCovidDots(covidDots)
-   
-   -- Scene Switch
-   sceneSwitch = display.newRect( sceneGroup, 700, 50, 75, 75)
-   sceneSwitch:setFillColor(1, 0.6, 0)
-   sceneSwitch:addEventListener("tap", function() 
-      composer.gotoScene("src.Scenes.Scene2", {effect = "fade", time = 500}) 
-   end)
-
-   -- Scene Switch Text
-   sceenSwitchText = display.newText(sceneGroup, "Scene 2", 700, 50, native.systemFont, 20)
-   sceenSwitchText:setFillColor(0, 0, 0)
 end
  
 -- "scene:show()"

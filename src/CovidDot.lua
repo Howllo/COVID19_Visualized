@@ -21,11 +21,13 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     local location = in_Location
     local case = tonumber(in_Case)
     local death = tonumber(in_Death)
-    local currentCases = in_Case
-    local currentDeath = in_Death
+    local currentCases = tonumber(in_Case)
+    local currentDeath = tonumber(in_Death)
     local caseOrDeath = true
     local absorbDots = {}
     ChildDot = false
+    Searched = false
+    Slidered = false
 
     -- Covid Dot Information
     local self = display.newCircle(group, 0, 0, 8 )
@@ -159,9 +161,12 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     end
 
     function self:SetRadius(n_Radius)
-        if n_Radius == nil then print("Error: Radius is nil. CovidDot Class.") return end   
+        if n_Radius == nil then print("Error: Radius is nil. CovidDot Class.") return end  
+        
+        -- Radius is between 8 and 25
         local nR = (n_Radius - 8) * (5.0 - 1.0) / (25 - 8) + 1.0
-        print("Scaling is: " .. nR)
+
+        -- Set
         self.xScale = nR
         self.yScale = nR
     end
@@ -169,6 +174,16 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     -- Empty the absorbDots table
     function self:ResetAborbsDot()
         absorbDots = {} ---- test
+    end
+
+    function self:Reset()
+        absorbDots = {}
+        currentCases = self:GetCase()
+        currentDeath = self:GetDeath()
+        self.ChildDot = false
+        self.isVisible = false
+        self.Searched = false
+        self.Slidered = false
     end
 
     return self

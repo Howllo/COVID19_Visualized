@@ -9,45 +9,61 @@ local MenuButtons = {}
 
 -- Requirements
 local widget = require("widget")
+local composer = require("composer")
 
 function MenuButtons.new()
     local self = {}
 
     local menuGroup = display.newGroup()
 
-     -- Background Case / Death Radio Buttons
-     local UI = display.newRoundedRect(menuGroup, display.contentCenterX, display.contentCenterY, 450, 250, 12)
-     UI:setFillColor(1, 0.6, 0)
+    -- Background Case / Death Radio Buttons
+    local UI = display.newRoundedRect(menuGroup, display.contentCenterX, display.contentCenterY, 400, 400, 25)
+    UI:setFillColor(1, 0.6, 0)
+    UI.alpha = 0.4
+
+    -- Scene Switch
+    local sceneSwitch = display.newRoundedRect( menuGroup, display.contentCenterX, display.contentCenterY + 150, 150, 65, 10)
+    sceneSwitch:setFillColor(1, 0.6, 0)
+    sceneSwitch:addEventListener("tap", function() 
+    composer.gotoScene("src.Scenes.Scene2", {effect = "fade", time = 300}) end)
+
+    -- Scene Switch Text
+    local sceenSwitchText = display.newText(menuGroup, "Visualize", display.contentCenterX, display.contentCenterY + 150, native.systemFont, 30)
+    sceenSwitchText:setFillColor(0, 0, 0)
 
     -- Variables
     local caseDeath = display.newGroup()
     local color = display.newGroup()
     local covidDots = {}
-    local colorXOffset = 20;
+    local colorXOffset = 15;
     local colorTextXOffset = (colorXOffset * -1) - 5;
     local colorYOffset = 25;
     local absorbApproved = false
 
     -- Case / Death Radio Button Text
-    local caseText = display.newText(menuGroup, "Case", display.contentCenterX - 50, display.contentCenterY - 100, native.systemFont, 20)
+    local caseText = display.newText(menuGroup, "Case", display.contentCenterX - 65, display.contentCenterY - 100, native.systemFont, 20)
     caseText:setFillColor(1, 1, 1)
 
-    local deathText = display.newText(menuGroup, "Death", display.contentCenterX + 15, display.contentCenterY - 100, native.systemFont, 20)
+    local deathText = display.newText(menuGroup, "Death", display.contentCenterX, display.contentCenterY - 100, native.systemFont, 20)
     deathText:setFillColor(1, 1, 1)
 
-    local deathText = display.newText(menuGroup, "Absorb", display.contentCenterX + 85, display.contentCenterY - 100, native.systemFont, 20)
+    local deathText = display.newText(menuGroup, "Absorb", display.contentCenterX + 70, display.contentCenterY - 100, native.systemFont, 20)
     deathText:setFillColor(1, 1, 1)
 
     function CaseButtonHandler()
         for _, dot in ipairs(covidDots) do
             dot:SetCaseOrDeath(true)
+            dot:Reset()
         end
+        absorbApproved = false
     end
 
     function DeathButtonHandler()
         for _, dot in ipairs(covidDots) do
             dot:SetCaseOrDeath(false)
+            dot:Reset()
         end
+        absorbApproved = false
     end
 
     function AbsorbButtonHandler()
@@ -55,8 +71,8 @@ function MenuButtons.new()
             dot:SetCaseOrDeath(false)
             dot.ChildDot = false
             dot:ResetAborbsDot()
-            absorbApproved = true
         end
+        absorbApproved = true
     end
 
     function WhiteButtonHandler()
@@ -79,7 +95,7 @@ function MenuButtons.new()
 
     function BlueButtonHandler()
         for _,dot in ipairs(covidDots) do
-            dot:setFillColor(0, 0, 1)
+            dot:setFillColor(0.54, 0.81, 0.94)
         end
     end
 
@@ -92,7 +108,7 @@ function MenuButtons.new()
     -- Case Radio Button
     local caseRadioButton = widget.newSwitch( 
         {
-            left = display.contentCenterX - 65,
+            left = display.contentCenterX - 80,
             top = display.contentCenterY - 75,
             style = "radio",
             id = "caseRadioButton",
@@ -104,7 +120,7 @@ function MenuButtons.new()
     -- Death Radio Button
     local deathRadioButton = widget.newSwitch( 
         {
-            left = display.contentCenterX,
+            left = display.contentCenterX - 15,
             top = display.contentCenterY - 75,
             style = "radio",
             id = "deathRadioButton",
@@ -113,17 +129,17 @@ function MenuButtons.new()
         }
     )
 
-        -- Death Radio Button
-        local absorbRadioButton = widget.newSwitch( 
-            {
-                left = display.contentCenterX + 65,
-                top = display.contentCenterY - 75,
-                style = "radio",
-                id = "absorbRadioButton",
-                initialSwitchState = false,
-                onPress = DeathButtonHandler
-            }
-        )
+    -- Absorb Radio Button
+    local absorbRadioButton = widget.newSwitch( 
+        {
+            left = display.contentCenterX + 50,
+            top = display.contentCenterY - 75,
+            style = "radio",
+            id = "absorbRadioButton",
+            initialSwitchState = false,
+            onPress = AbsorbButtonHandler
+        }
+    )
 
     caseDeath:insert(caseRadioButton)
     caseDeath:insert(deathRadioButton)

@@ -51,6 +51,8 @@ function Load.new()
                     table.insert(covidDots, dot)
                     dot.isVisible = false
                     dot.ChildDot = false
+                    dot.Slidered = false
+                    dot.Searched = false
                 end
                 i = i + 1
             end

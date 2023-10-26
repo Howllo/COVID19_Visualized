@@ -16,6 +16,8 @@ local bg = nil
 local menu = nil
 local popupGroup = nil
 local absorbApproved = false
+local doubleTouch = 0
+local doubleTouchTimer = nil
 
 local function RunTimeHandle(event)
    if event.phase == "ended" then
@@ -34,16 +36,10 @@ function scene:create( event )
    -- Set Covid Dots
    covidDots = composer.getVariable("covidDots")
 
-   -- Get Absorb Approve
-   absorbApproved = composer.getVariable("AbsorbApproved");
-
    -- Alabama Background
    bg = display.newImage (sceneGroup, "data/al_map.png", display.contentCenterX, display.contentCenterY);
    bg.xScale = display.contentWidth / bg.width; 
    bg.yScale = display.contentHeight / bg.height;
-   
-   -- Menu
-   menu = MenuSceneTwo.new(sceneGroup, covidDots)
 
    -- Set up Runtime Listener
    --bg:addEventListener("touch", RunTimeHandle)
@@ -56,19 +52,24 @@ function scene:show( event )
    local phase = event.phase
  
    if ( phase == "will" ) then
+
       -- Absorb Dots Handler
-      AbsorbDot.Absorb(covidDots, composer.getVariable("absorbApproved"))
+      AbsorbDot.Absorb(covidDots, absorbApproved, 25)
+
+      -- Get Absorb Approve
+      absorbApproved = composer.getVariable("AbsorbApproved");
 
       -- Remove
       --bg:removeEventListener("touch", RunTimeHandle)
    elseif ( phase == "did" ) then
-      local int = 0;
       for _,dot in ipairs(covidDots) do
-         int = int + 1
          if dot.ChildDot == false then
             dot.isVisible = true
          end
       end
+
+      -- Menu
+      menu = MenuSceneTwo.new(sceneGroup, covidDots, absorbApproved)
 
       -- Set up Runtime Listener
       --bg:addEventListener("touch", RunTimeHandle)
@@ -82,13 +83,19 @@ function scene:hide( event )
    local phase = event.phase
  
    if ( phase == "will" ) then
-      for _,dot in ipairs(covidDots) do
-         dot.isVisible = false
-      end
-
       -- Hide Popup menu when switching to scene oen.
       if popupGroup ~= nil then
          popupGroup.isVisible = false
+      end
+
+      -- Reset Menu
+      if menu ~= nil then 
+         menu:Destroy()
+         menu = nil
+      end
+
+      for _,dot in ipairs(covidDots) do
+         dot:Reset()
       end
    elseif ( phase == "did" ) then
    end
@@ -99,6 +106,22 @@ function scene:destroy( event )
  
    local sceneGroup = self.view
 end
+
+local function resetDoubleTouch()
+   doubleTouch = 0
+end
+
+local function RunTimeHandle(event)
+   if event.phase == "ended" then
+      doubleTouch = doubleTouch + 1
+      doubleTouchTimer = timer.performWithDelay(300, resetDoubleTouch)
+      if doubleTouch == 2 then
+         timer.cancel(doubleTouchTimer)
+         composer.gotoScene("src.Scenes.Scene1", {effect = "fade", time = 500})
+      end
+   end
+end
+
  
 ---------------------------------------------------------------------------------
  
@@ -107,7 +130,7 @@ scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-
+Runtime:addEventListener("touch", RunTimeHandle)
  
 ---------------------------------------------------------------------------------
  

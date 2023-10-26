@@ -52,7 +52,7 @@ function Class.new(s_Group, in_covidDots, in_absorbApproved)
         Absorb:Absorb(absorbApproved, value)
     end
 
-    local function Search(dot, search, data )
+    local function Search(dot, search, data)
         if string.sub(data, 1, string.len(search)) == search then
             if dot.Slidered == false then
                 dot.isVisible = true
@@ -91,9 +91,13 @@ function Class.new(s_Group, in_covidDots, in_absorbApproved)
             return
         end
 
+        -- This get the search bar text.
         local searchFileText = Self:GetSearchField().text
+
+        -- Boolean function that check case and death and if it's being searched.
         local filter = searchFileText == "" and filterDot or isSearchDot
 
+        -- This filters the dots based on the slider value and if it searched.
         for _, dot in ipairs(covidDots) do
             dot.isVisible = filter(dot, caseOrDeath, value)
 

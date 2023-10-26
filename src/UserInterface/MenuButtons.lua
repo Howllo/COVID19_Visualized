@@ -53,7 +53,6 @@ function MenuButtons.new()
     function CaseButtonHandler()
         for _, dot in ipairs(covidDots) do
             dot:SetCaseOrDeath(true)
-            dot:Reset()
         end
         absorbApproved = false
     end
@@ -61,7 +60,6 @@ function MenuButtons.new()
     function DeathButtonHandler()
         for _, dot in ipairs(covidDots) do
             dot:SetCaseOrDeath(false)
-            dot:Reset()
         end
         absorbApproved = false
     end
@@ -69,8 +67,6 @@ function MenuButtons.new()
     function AbsorbButtonHandler()
         for _, dot in ipairs(covidDots) do
             dot:SetCaseOrDeath(false)
-            dot.ChildDot = false
-            dot:ResetAborbsDot()
         end
         absorbApproved = true
     end

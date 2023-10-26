@@ -60,6 +60,7 @@ function scene:show( event )
       --Reset Dots for Scene
       for _,dot in ipairs(covidDots) do
          dot.isVisible = true
+         dot.Absorb = absorbApproved
       end
 
       -- Menu

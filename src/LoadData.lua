@@ -26,7 +26,7 @@ function Load.new()
     local function DotsHandler(event)
         if popup == nil then print("Error: Popup is nil") return end
         popup.SetInformation(event.target:GetLocation(), event.target:GetZipcode(), event.target:GetCurrentCase(), 
-                                event.target:GetCurrentDeath())
+                                event.target:GetCurrentDeath(), event.target:GetCaseOrDeath(), event.target.Absorb)
         popupGroup.isVisible = true
     end
 

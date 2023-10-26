@@ -28,6 +28,7 @@ function CovidDot.new(group, zip, x, y, in_Location, in_Case, in_Death, color, I
     ChildDot = false
     Searched = false
     Slidered = false
+    Absorb = false
 
     -- Covid Dot Information
     local self = display.newCircle(group, 0, 0, 8 )

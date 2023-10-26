@@ -40,14 +40,14 @@ function class.new()
     cityInformationText:setFillColor(1, 1, 1)
 
     -- Case Information Text
-    local caseInformationText = display.newText(menuGroup, caseText, display.contentCenterX - 100, display.contentCenterY + 85, native.systemFont, 30)
+    local caseInformationText = display.newText(menuGroup, caseText, display.contentCenterX, display.contentCenterY + 75, native.systemFont, 35)
     caseInformationText:setFillColor(1, 1, 1)
 
     -- Death Information Text
-    local deathInformationText = display.newText(menuGroup, deathText, display.contentCenterX + 100, display.contentCenterY + 85, native.systemFont, 30)
+    local deathInformationText = display.newText(menuGroup, deathText, display.contentCenterX, display.contentCenterY + 75, native.systemFont, 35)
     deathInformationText:setFillColor(1, 1, 1)
     
-    function self.SetInformation(city, zip, cases, deaths)
+    function self.SetInformation(city, zip, cases, deaths, caseOrdeath, absorbApproved)
         cityText = city
         zipText = zip
         caseText = "Cases: " .. cases
@@ -56,6 +56,25 @@ function class.new()
         cityInformationText.text = cityText .. stateText .. " " .. zipText
         caseInformationText.text = caseText
         deathInformationText.text = deathText
+
+        if caseOrdeath == true then
+            caseInformationText.isVisible = true
+            deathInformationText.isVisible = false
+            caseInformationText.x = display.contentCenterX
+            cityInformationText.size = 35
+        elseif caseOrdeath == false and absorbApproved == false then
+            caseInformationText.isVisible = false
+            deathInformationText.isVisible = true
+            deathInformationText.x = display.contentCenterX
+            deathInformationText.size = 35
+        else
+            caseInformationText.isVisible = true
+            deathInformationText.isVisible = true
+            cityInformationText.size = 33
+            deathInformationText.size = 33
+            caseInformationText.x = display.contentCenterX - 100
+            deathInformationText.x = display.contentCenterX + 115
+        end
 
         if #cityText < 10 then
             cityInformationText.size = 40

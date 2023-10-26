@@ -19,12 +19,6 @@ local absorbApproved = false
 local doubleTouch = 0
 local doubleTouchTimer = nil
 
-local function RunTimeHandle(event)
-   if event.phase == "ended" then
-      composer.gotoScene("src.Scenes.Scene1", {effect = "fade", time = 500})
-   end
-end
-
 -- "scene:create()"
 function scene:create( event )
  

@@ -40,9 +40,6 @@ function scene:create( event )
    bg = display.newImage (sceneGroup, "data/al_map.png", display.contentCenterX, display.contentCenterY);
    bg.xScale = display.contentWidth / bg.width; 
    bg.yScale = display.contentHeight / bg.height;
-
-   -- Set up Runtime Listener
-   --bg:addEventListener("touch", RunTimeHandle)
 end
  
 -- "scene:show()"
@@ -58,9 +55,6 @@ function scene:show( event )
 
       -- Get Absorb Approve
       absorbApproved = composer.getVariable("AbsorbApproved");
-
-      -- Remove
-      --bg:removeEventListener("touch", RunTimeHandle)
    elseif ( phase == "did" ) then
       for _,dot in ipairs(covidDots) do
          if dot.ChildDot == false then
@@ -70,9 +64,6 @@ function scene:show( event )
 
       -- Menu
       menu = MenuSceneTwo.new(sceneGroup, covidDots, absorbApproved)
-
-      -- Set up Runtime Listener
-      --bg:addEventListener("touch", RunTimeHandle)
    end
 end
  

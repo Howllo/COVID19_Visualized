@@ -109,7 +109,7 @@ function Class.new(s_Group, covidDots, in_absorbApproved)
             if tonumber(search) ~= nil then
                 Search(dot, search, dot:GetZipcode())
             else
-                Search(dot, search, dot:GetLocation())
+                Search(dot, string.upper(search), dot:GetLocation())
             end
         end
         return
@@ -146,21 +146,14 @@ function Class.new(s_Group, covidDots, in_absorbApproved)
     UIText:setFillColor(0, 0, 0)
     
     -- Search Field
-    local searchField = native.newTextField( 400, 1190, 200, 50 )
+    local searchField = native.newTextField( 405, 1190, 200, 50 )
     searchField.placeholder = "Zip/City"
     searchField.font = native.newFont( native.systemFont, 25 )
     native.setKeyboardFocus( searchField )
     searchField:resizeFontToFitHeight()
     searchField:addEventListener( "userInput", searchHandler )
     sceneGroup:insert(searchField)
- 
-    -- Search Button
-    local searchButton = widget.newButton( {label = "", x = 530, y = 1190, width = 45, height = 45, shape = "roundedRect", cornerRadius = 10, onRelease = searchHandler} )
-    searchButton:setFillColor(1, 0.6, 0)
-    sceneGroup:insert(searchButton)
 
-    -- Scene Switch Text
-    local SearchText = display.newText(sceneGroup, "🔍", 530, 1190, native.systemFont, 30)
 
     -- Opacity Slider
     local slider = widget.newSlider(
